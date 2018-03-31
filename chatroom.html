@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>chatroom</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>var socket = io();</script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            /* box-sizing為邊界設定 */
+            box-sizing: border-box;
+        }
+        .navbar{
+            background-color: black;
+            height: 50px;
+            padding-top: 14px;
+            padding-left: 40px;
+            padding-right: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        #username{
+            color: azure;
+            font-size: 20px;
+        }
+        #leave{
+            float: right;
+            background-color: black;
+            color: white;
+            border: none;
+            height: 20px;
+            font-size: 20px;
+        }
+        .main{
+            top: 0;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            background-color: lightgray;
+            padding: 50px 40px 60px 40px;
+        }
+        .msg{
+            height: 100%;
+        }
+        .inputForm{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            /* background-color: lightblue; */
+        }
+        #inputMsg{
+            border-radius: 20px;
+            height: 50px;
+            width: 75%;
+            border: 3px solid lightgray;
+            margin-left: 40px;
+            padding-left: 10px;
+            font-size: 20px;
+        }
+        #inputButton{
+            float: right;
+            height: 40px;
+            width: 150px;
+            font-size: 20px;
+            margin-right: 40px;
+            border-radius: 20px;
+            background-color: black;
+            color: white;
+        }
+        .aaa{
+            font-size: 30px;
+            margin-top: 20px;
+        }
+        .bbb{
+            font-size: 30px;
+            margin-top: 20px;
+            color: steelblue;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <span id="username"></span>
+        <button id="leave">離開</button>
+    </div>
+    <div class="main">
+        <div class="msg"></div>
+        <form class="inputForm">
+            <input type="text" id="inputMsg" placeholder="輸入你想說的話..." />
+            <button id="inputButton">發送</button>
+        </form>
+    </div>
+    <script>
+        function getQuery(){
+            // 因為Query可能不只一個, 故宣告陣列
+            var result = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for(i=0; i<hashes.length; i++){
+                hash = hashes[i].split('=');
+                result.push(hash[0]);
+                result[hash[0]] = decodeURIComponent(hash[1]);
+            }
+            return result;
+        }
+        var usr = getQuery()['username'];
+        $('#username').html(usr);
+        socket.emit('online', usr);
+        $('#inputButton').on('click', function(){
+            let msg = usr + ": " + $('#inputMsg').val();
+            socket.emit('msg', msg);
+            $('#inputMsg').val("");
+            return false;
+        });
+        socket.on('msg', function(msg){
+            // alert(msg);
+            $('.msg').append($('<p class="aaa">').text(msg));
+        });
+        $('#leave').on('click', function(){
+            socket.emit('leaveRoom', usr);
+        });
+        socket.on('leave', function(){
+            // alert(msg);
+            window.location.replace('/');
+        });
+        socket.on('usrLeft', function(msg){
+            // alert(msg);
+            $('.msg').append($('<p class="bbb">').text(msg));
+        });
+        socket.on('usrOnline', function(msg){
+            // alert(msg);
+            $('.msg').append($('<p class="bbb">').text(msg));
+        });
+    </script>
+</body>
+</html>
