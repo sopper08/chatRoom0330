@@ -46,6 +46,9 @@
         }
         .msg{
             height: 100%;
+            overflow: scroll;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
         .inputForm{
             position: absolute;
@@ -91,7 +94,7 @@
         <button id="leave">離開</button>
     </div>
     <div class="main">
-        <div class="msg"></div>
+        <div class="msg" id="msg"></div>
         <form class="inputForm">
             <input type="text" id="inputMsg" placeholder="輸入你想說的話..." />
             <button id="inputButton">發送</button>
@@ -113,6 +116,7 @@
         $('#username').html(usr);
         socket.emit('online', usr);
         $('#inputButton').on('click', function(){
+            
             let msg = usr + ": " + $('#inputMsg').val();
             socket.emit('msg', msg);
             $('#inputMsg').val("");
@@ -121,6 +125,9 @@
         socket.on('msg', function(msg){
             // alert(msg);
             $('.msg').append($('<p class="aaa">').text(msg));
+            var scrollH = $('#msg').prop("scrollHeight");
+            $('#msg').scrollTop(scrollH,200);
+            console.log(scrollH);
         });
         $('#leave').on('click', function(){
             socket.emit('leaveRoom', usr);

@@ -1,7 +1,7 @@
 {
   "name": "chatroom0330",
   "version": "1.0.0",
-  "description": "",
+  "description": "Item|Content -----|------ Title|chatRoom0330 Description|使用nodejs / express / socket.io 架設一個網路聊天室. Author|Sopper E-mail|sopper08@gmail.com Edit Time|2018 3/31",
   "main": "index.js",
   "directories": {
     "example": "example"
@@ -15,5 +15,6 @@
     "express": "^4.16.3",
     "socket.io": "^2.1.0",
     "socketio": "^1.0.0"
-  }
+  },
+  "devDependencies": {}
 }
