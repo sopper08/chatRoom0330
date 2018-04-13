@@ -4,9 +4,23 @@ Item|Content
 -----|------
 Title|chatRoom0330
 Description|使用nodejs / express / socket.io 架設一個網路聊天室.
-Author|Sopper
-E-mail|sopper08@gmail.com
-Edit Time|2018 3/31
+Author|Sopper / chiangyulun / fatman
+E-mail|sopper08@gmail.com / chiangyulun0914@gmail.com / none
+Edit Time|2018 4/13
+
+## 使用教學
+STEP1: 
+```
+$npm init
+```
+STEP2:
+```
+$npm install express socket.io
+```
+STEP3:
+```
+$node index.js
+```
 
 ## 目前功能
 * 多人線上聊天.
@@ -16,6 +30,5 @@ Edit Time|2018 3/31
 * 訊息太多會出框. >> 已解決
 
 ## HISTORY
-
 20180412 - 完成demo版
 20180331 - 完成第一版
